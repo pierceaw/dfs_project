@@ -126,7 +126,7 @@ roster_space$dist <- NA
 pb <- txtProgressBar(1,n, style = 3)
 for(k in 1:nrow(roster_space)){
   # calculate the distance
-  roster_space$dist[k] <- eu_dist(roster_space$sigma[k],roster_space$mu[k])
+  roster_space$dist[k] <- eu_dist(roster_space$sigma_prime[k],roster_space$mu_prime[k])
   
   # Update the progress bar
   setTxtProgressBar(pb, j)
@@ -134,5 +134,5 @@ for(k in 1:nrow(roster_space)){
 close(pb)
 
 z <- which.max(roster_space$dist)
-points(roster_space$sigma[z], roster_space$mu[z], col = "red")
+points(roster_space$sigma_prime[z], roster_space$mu_prime[z], col = "red")
 
