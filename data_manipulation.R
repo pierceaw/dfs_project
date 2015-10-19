@@ -104,8 +104,15 @@ for(j in 1:n){
 }
 close(pb)
 
-plot(roster_space$mu ~ roster_space$sigma)
+plot(roster_space$mu ~ roster_space$sigma, ylim = c(0,200), xlim = c(0, 200))
 abline(h = mean(roster_space$mu))
+
+# scale risk and reward
+roster_space$mu_prime <- roster_space$mu/max(roster_space$mu)
+roster_space$sigma_prime <- roster_space$sigma/max(roster_space$sigma)
+
+plot(roster_space$mu_prime ~ roster_space$sigma_prime)
+abline(h = mean(roster_space$mu_prime))
 
 # function for euclidian distance
 eu_dist <- function(x,y){
@@ -114,9 +121,18 @@ eu_dist <- function(x,y){
   out <- sqrt(x2 + y2)
 }
 
-eff <- subset(roster_space, mu > 140)
-eff <- eff[order(-eff$mu),]
+# calculate euclidian distance for risk/reward
+roster_space$dist <- NA
+pb <- txtProgressBar(1,n, style = 3)
+for(k in 1:nrow(roster_space)){
+  # calculate the distance
+  roster_space$dist[k] <- eu_dist(roster_space$sigma[k],roster_space$mu[k])
+  
+  # Update the progress bar
+  setTxtProgressBar(pb, j)
+}
+close(pb)
 
-eff$roster[2]
-
+z <- which.max(roster_space$dist)
+points(roster_space$sigma[z], roster_space$mu[z], col = "red")
 
