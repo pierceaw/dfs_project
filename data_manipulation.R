@@ -105,6 +105,14 @@ for(j in 1:n){
 close(pb)
 
 plot(roster_space$mu ~ roster_space$sigma)
+abline(h = mean(roster_space$mu))
+
+# function for euclidian distance
+eu_dist <- function(x,y){
+  x2 <- x^2
+  y2 <- y^2
+  out <- sqrt(x2 + y2)
+}
 
 eff <- subset(roster_space, mu > 140)
 eff <- eff[order(-eff$mu),]
